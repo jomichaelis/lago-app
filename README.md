@@ -1,6 +1,6 @@
 # lago-app
 
-##Lago-App 2019 based on Vue.js and Vuetify
+## Lago-App 2019 based on Vue.js and Vuetify
 
 ## Project setup
 ```
