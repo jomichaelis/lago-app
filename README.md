@@ -3,9 +3,7 @@
 ## What?
 
 ### Lago-App 2019 based on Vue.js and Vuetify
-```
-npm run serve
-```
+
 
 ## Project setup
 ```
