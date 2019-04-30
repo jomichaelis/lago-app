@@ -4,8 +4,8 @@
     <v-toolbar flat app>
       <v-toolbar-side-icon @click="drawer = !drawer" class="grey--text"></v-toolbar-side-icon>
       <v-toolbar-title class="text-uppercase grey--text">
-        <span class="font-weight-light">Todo</span>
-        <span>Ninja</span>
+        <span>Lago-App</span>
+        <span class="font-weight-light"> 2019</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn flat color="grey">

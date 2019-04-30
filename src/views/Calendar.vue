@@ -1,7 +1,9 @@
 <template>
   <div class="calendar">
-    <h1>Kalender</h1>
-
+    <h1 class="subheading grey--text">Kalender</h1>
+    <v-container class="my-5">
+      content
+    </v-container>
   </div>
 </template>
 
