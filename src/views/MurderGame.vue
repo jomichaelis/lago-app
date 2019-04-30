@@ -4,18 +4,27 @@
   <v-container class="my-5">
 
     <v-layout row justify-start class="mb-2">
-      <v-btn small flat color="grey" @click="sortByUp('name')">
-        <v-icon small left>person</v-icon>
-        <span class="caption text-lowercase">Name</span>
-      </v-btn>
-      <v-btn small flat color="grey" @click="sortByUp('date')">
-        <v-icon small left>calendar_today</v-icon>
-        <span class="caption text-lowercase">Datum</span>
-      </v-btn>
-      <v-btn small flat color="grey" @click="sortByDown('rate')">
-        <v-icon small left>stars</v-icon>
-        <span class="caption text-lowercase">Bewertung</span>
-      </v-btn>
+      <v-tooltip top>
+        <v-btn small flat color="grey" @click="sortByUp('name')" slot="activator">
+          <v-icon small left>person</v-icon>
+          <span class="caption text-lowercase">Name</span>
+        </v-btn>
+        <span>Sortiere nach Namen</span>
+      </v-tooltip>
+      <v-tooltip top>
+        <v-btn small flat color="grey" @click="sortByUp('date')" slot="activator">
+          <v-icon small left>calendar_today</v-icon>
+          <span class="caption text-lowercase">Datum</span>
+        </v-btn>
+        <span>Sortiere nach Datum</span>
+      </v-tooltip>
+      <v-tooltip top>
+        <v-btn small flat color="grey" @click="sortByUp('rate')" slot="activator">
+          <v-icon small left>stars</v-icon>
+          <span class="caption text-lowercase">Bewertung</span>
+        </v-btn>
+        <span>Sortiere nach Bewertungen</span>
+      </v-tooltip>
     </v-layout>
 
     <v-flex xs12>
@@ -42,12 +51,7 @@
         </v-card-actions>
       </v-card>
     </v-flex>
-
   </v-container>
-
-  <v-btn v-if="!isDead" v-model="fab" dark fab fixed bottom right @click="dialog = !dialog">
-    <v-icon>add</v-icon>
-  </v-btn>
 
   <v-dialog v-model="dialog" max-width="600px">
     <v-card dark color="black">
@@ -76,6 +80,9 @@
     </v-card>
   </v-dialog>
 
+  <v-btn v-if="!isDead" v-model="fab" dark fab fixed bottom right @click="dialog = !dialog">
+    <v-icon>add</v-icon>
+  </v-btn>
 
 </div>
 </template>
