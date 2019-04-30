@@ -6,21 +6,22 @@
 
       <v-card flat v-for="murder in murders" :key="murder.name">
         <v-layout row wrap :class="`pa-3 murder ${murder.name}`">
-          <v-flex xs12 md6>
+          <v-flex xs6 sm6 md2>
             <div class="caption grey--text">Name</div>
             <div>{{ murder.name }}</div>
           </v-flex>
-          <v-flex xs6 sm4 md2>
+          <v-flex xs6 sm6 md2>
             <div class="caption grey--text">Datum</div>
             <div>{{ murder.date }}</div>
           </v-flex>
-          <v-flex xs6 sm4 md2>
+          <v-flex xs6 sm6 md6>
             <div class="caption grey--text">Tathergang</div>
             <div>{{ murder.how }}</div>
           </v-flex>
-          <v-flex xs2 sm4 md2>
-            <div class="caption grey--text">Bewertung</div>
-            <div>{{ murder.rate }}</div>
+          <v-flex xs6 sm6 md2>
+            <div>
+              <v-chip small :class="`${murder.rate} white--text my-2 caption`">{{ murder.rate }}</v-chip>
+            </div>
           </v-flex>
         </v-layout>
         <v-divider></v-divider>
@@ -36,7 +37,7 @@ export default {
   data() {
     return {
       murders: [
-        { name: 'Johannes', date: '30.04.2019', how: 'bliblablub1', rate: '5'},
+        { name: 'Johannes', date: '30.04.2019', how: 'bliblablub1', rate: 'five'},
         { name: 'Katha', date: '26.04.2019', how: 'bliblablub2', rate: '1'},
         { name: 'Boris', date: '12.01.2019', how: 'bliblablub3', rate: '4'},
         { name: 'Liesl', date: '26.11.2018', how: 'bliblablub4', rate: '3'},
@@ -47,16 +48,10 @@ export default {
 </script>
 
 <style>
-.murder.Johannes{
-  border-left: 4px solid #3CD1C2;
+.murder{
+  border-left: 4px solid black;
 }
-.murder.Katha{
-  border-left: 4px solid orange
-}
-.murder.Boris{
-  border-left: 4px solid tomato;
-}
-.murder.Liesl{
-  border-left: 4px solid yellow;
+.v-chip.five {
+  background: black;
 }
 </style>
