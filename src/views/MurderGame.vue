@@ -3,9 +3,20 @@
 
   <v-container class="my-5">
 
-    <v-btn @click="sortByUp('date')">Datum</v-btn>
-    <v-btn @click="sortByUp('name')">Name</v-btn>
-    <v-btn @click="sortByDown('rate')">Bewertung</v-btn>
+    <v-layout row justify-start class="mb-2">
+      <v-btn small flat color="grey" @click="sortByUp('name')">
+        <v-icon small left>person</v-icon>
+        <span class="caption text-lowercase">Name</span>
+      </v-btn>
+      <v-btn small flat color="grey" @click="sortByUp('date')">
+        <v-icon small left>calendar_today</v-icon>
+        <span class="caption text-lowercase">Datum</span>
+      </v-btn>
+      <v-btn small flat color="grey" @click="sortByDown('rate')">
+        <v-icon small left>stars</v-icon>
+        <span class="caption text-lowercase">Bewertung</span>
+      </v-btn>
+    </v-layout>
 
     <v-flex xs12>
       <v-card color="grey darken-2" class="white--text" v-for="murder in murders" :key="murder.name">
@@ -43,35 +54,31 @@
   </v-btn>
 
   <v-dialog v-model="dialog" max-width="600px">
-      <v-card dark color="black">
-        <v-card-title>
-          <span class="headline">Du bist tot.</span>
-        </v-card-title>
-        <v-card-title>
-          <span class="subheading">Trage hier deine Daten ein.</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xsAndUp12>
-                <v-text-field label="Wie bist du zu Tode gekommen?" required></v-text-field>
-              </v-flex>
-              <v-flex xsAndUp12>
-                <v-select
-                  :items="['Tag 01', 'Tag 02', 'Tag 03', 'Tag 04', 'Tag 05', 'Tag 06', 'Tag 07', 'Tag 08', 'Tag 09', 'Tag 10']"
-                  label="Todestag"
-                  required
-                ></v-select>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn dark color="blue white--text" @click="dialog = false">Ab in die Gruft</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <v-card dark color="black">
+      <v-card-title>
+        <span class="headline">Du bist tot.</span>
+      </v-card-title>
+      <v-card-title>
+        <span class="subheading">Trage hier deine Daten ein.</span>
+      </v-card-title>
+      <v-card-text>
+        <v-container grid-list-md>
+          <v-layout wrap>
+            <v-flex xsAndUp12>
+              <v-text-field label="Wie bist du zu Tode gekommen?" required></v-text-field>
+            </v-flex>
+            <v-flex xsAndUp12>
+              <v-select :items="['Tag 01', 'Tag 02', 'Tag 03', 'Tag 04', 'Tag 05', 'Tag 06', 'Tag 07', 'Tag 08', 'Tag 09', 'Tag 10']" label="Todestag" required></v-select>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn dark color="blue white--text" @click="dialog = false">Ab in die Gruft</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 
 
 </div>
