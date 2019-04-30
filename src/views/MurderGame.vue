@@ -19,7 +19,7 @@
     </v-layout>
 
     <v-flex xs12>
-      <v-card color="grey darken-2" class="white--text" v-for="murder in murders" :key="murder.name">
+      <v-card color="grey darken-2" class="white--text" v-for="murder,i in murders" :key="murder.name">
         <v-layout mt-2>
           <v-flex my-2 xs2 mdAndUp4>
             <v-img src="https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1" height="125px" contain></v-img>
@@ -27,7 +27,7 @@
           <v-flex xs10 mdAndUp8>
             <v-card-title primary-title>
               <div>
-                <div class="headline">{{murder.name}} († {{murder.date}})</div>
+                <div class="headline">{{murder.name}}</div>
                 <div>{{murder.how}}</div>
               </div>
             </v-card-title>
@@ -35,14 +35,10 @@
         </v-layout>
         <v-divider dark></v-divider>
         <v-card-actions class="pa-3">
-          Bewerte den Tod von {{murder.name}}
+          <div>† gestorben an {{murder.date}}</div>
           <v-spacer></v-spacer>
-          <p>{{murder.rate}}</p>
-          <v-icon>star_border</v-icon>
-          <v-icon>star_border</v-icon>
-          <v-icon>star_border</v-icon>
-          <v-icon>star_border</v-icon>
-          <v-icon>star_border</v-icon>
+          <v-icon v-for="a in murder.rate" color="yellow darken-1" @click="rateDeath(i, a)">star</v-icon>
+          <v-icon v-for="b in (5-murder.rate)" color="yellow lighten-2" @click="rateDeath(i, murder.rate+b)">star_border</v-icon>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -56,10 +52,10 @@
   <v-dialog v-model="dialog" max-width="600px">
     <v-card dark color="black">
       <v-card-title>
-        <span class="headline">Du bist tot.</span>
+        <span class="headline">Bist wohl gfreckt?.</span>
       </v-card-title>
       <v-card-title>
-        <span class="subheading">Trage hier deine Daten ein.</span>
+        <span class="subheading">Dann trag mal hier die Infos ein.</span>
       </v-card-title>
       <v-card-text>
         <v-container grid-list-md>
@@ -75,7 +71,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn dark color="blue white--text" @click="dialog = false">Ab in die Gruft</v-btn>
+        <v-btn dark color="blue white--text" @click="dialog = false, addDeath('hello', 'hello', 'hello')">Ab in die Gruft</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -94,31 +90,31 @@ export default {
           name: 'Johannes',
           date: 'Tag 01',
           how: 'Vom Messer erstochen',
-          rate: '5'
+          rate: 5
         },
         {
           name: 'Katha',
           date: 'Tag 10',
           how: 'Mit dem Wasserglas erschlagen',
-          rate: '1'
+          rate: 1
         },
         {
           name: 'Boris',
           date: 'Tag 03',
           how: 'An Teekrümeln vergiftet',
-          rate: '4'
+          rate: 4
         },
         {
           name: 'Liesl',
           date: 'Tag 05',
           how: 'In Sonnernmilch ertränkt',
-          rate: '3'
+          rate: 3
         },
         {
           name: 'Tobi',
           date: 'Tag 07',
           how: 'Von der Badeschlappe tödlich verwundet',
-          rate: '4'
+          rate: 4
         },
       ]
     }
@@ -129,6 +125,17 @@ export default {
     },
     sortByDown(prop) {
       this.murders.sort((a, b) => a[prop] > b[prop] ? -1 : 1)
+    },
+    addDeath(user, date, how) {
+      this.murders.push({
+        name: name,
+        date: date,
+        how: how,
+        rate: 0
+      });
+    },
+    rateDeath(element, rate) {
+      this.murders[element].rate = rate
     }
   }
 }
