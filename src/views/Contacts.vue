@@ -3,7 +3,6 @@
     <h1 class="subheading grey--text">Team</h1>
 
     <v-container class="my-5">
-
       <v-layout row wrap>
         <v-flex xs12 sm6 md4 lg3 v-for="person in contacts" :key="person.name">
           <v-card flat class="text-xs-center ma-3">

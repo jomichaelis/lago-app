@@ -19,7 +19,7 @@
         <span>Sortiere nach Datum</span>
       </v-tooltip>
       <v-tooltip top>
-        <v-btn small flat color="grey" @click="sortByUp('rate')" slot="activator">
+        <v-btn small flat color="grey" @click="sortByDown('rate')" slot="activator">
           <v-icon small left>stars</v-icon>
           <span class="caption text-lowercase">Bewertung</span>
         </v-btn>
@@ -46,8 +46,7 @@
         <v-card-actions class="pa-3">
           <div>† gestorben an {{murder.date}}</div>
           <v-spacer></v-spacer>
-          <v-icon v-for="a in murder.rate" color="yellow darken-1" @click="rateDeath(i, a)">star</v-icon>
-          <v-icon v-for="b in (5-murder.rate)" color="yellow lighten-2" @click="rateDeath(i, murder.rate+b)">star_border</v-icon>
+          <v-rating v-model="murder.rate" background-color="yellow lighten-2" color="yellow darken-1" dense half-increments hover size="25"></v-rating>
         </v-card-actions>
       </v-card>
     </v-flex>
