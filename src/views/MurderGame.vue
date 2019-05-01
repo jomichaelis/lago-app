@@ -1,6 +1,12 @@
 <template>
 <div class="murdergame">
 
+  <v-layout row wrap align-center>
+    <v-flex class="text-xs-center">
+      <h1 class="heading blue--text">Mörderspiel</h1>
+    </v-flex>
+  </v-layout>
+
   <v-container class="my-5">
 
     <v-layout row justify-start class="mb-2">
@@ -31,7 +37,7 @@
       <v-card color="grey darken-4" class="white--text" v-for="murder,i in murders" :key="murder.name">
         <v-layout mt-2>
           <v-flex my-2 xs2 mdAndUp4>
-            <v-img src="https://i0.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100&ssl=1" height="125px" contain></v-img>
+            <img src='https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Blank&hairColor=BlondeGolden&facialHairType=Blank&clotheType=ShirtVNeck&clotheColor=Blue03&eyeType=Default&eyebrowType=UpDown&mouthType=Default&skinColor=Light' height="125px" contain />
           </v-flex>
           <v-flex xs10 mdAndUp8>
             <v-card-title primary-title>
