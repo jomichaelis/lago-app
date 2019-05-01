@@ -1,6 +1,11 @@
 <template>
 <div class="calendar">
-  <h1 class="subheading grey--text">Kalender</h1>
+
+  <v-layout row wrap align-center>
+    <v-flex class="text-xs-center">
+      <h1 class="heading blue--text">Kalender</h1>
+    </v-flex>
+  </v-layout>
 
   <v-container class="my-5">
     <v-img src="https://cdn.vuetifyjs.com/images/cards/forest.jpg" gradient="to top, rgba(0,0,0,.44), rgba(0,0,0,.44)" height="200px">
@@ -16,7 +21,7 @@
     </v-img>
     <v-card-text class="py-0 mt-3">
       <v-timeline align-top dense>
-        <v-timeline-item v-for="event in days[today].events" color="yellow" small>
+        <v-timeline-item v-for="event in days[today].events" color="blue" small>
           <v-layout wrap pt-3>
             <v-flex xs3>
               <strong>{{event.time}}</strong>
@@ -27,6 +32,7 @@
               <v-avatar v-for="hosts in event.hosts">
                 <img
                   src='https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortFlat&accessoriesType=Blank&hairColor=BlondeGolden&facialHairType=Blank&clotheType=ShirtVNeck&clotheColor=Blue03&eyeType=Default&eyebrowType=UpDown&mouthType=Default&skinColor=Light' />
+                </img>
               </v-avatar>
             </v-flex>
           </v-layout>

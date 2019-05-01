@@ -1,6 +1,11 @@
 <template>
   <div class="team">
-    <h1 class="subheading grey--text">Team</h1>
+
+    <v-layout row wrap align-center>
+      <v-flex class="text-xs-center">
+        <h1 class="heading blue--text">Kontakte</h1>
+      </v-flex>
+    </v-layout>
 
     <v-container class="my-5">
       <v-layout row wrap>
