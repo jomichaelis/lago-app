@@ -8,14 +8,12 @@
   </v-layout>
 
   <v-container class="my-5">
-    content
+    <v-btn flat class="success mx-0 mt-3" @click="submit" :loading="true">Load</v-btn>
   </v-container>
 
 </div>
 </template>
 
 <script>
-export default {
 
-}
 </script>

@@ -85,15 +85,24 @@
     </v-card>
   </v-dialog>
 
-  <v-btn v-if="!isDead" v-model="fab" dark fab fixed bottom right @click="dialog = !dialog">
+  <v-btn v-if="!isDead" dark fab fixed bottom right @click="dialog = !dialog">
     <v-icon>add</v-icon>
   </v-btn>
+
+  <v-flex class="mt-4 mb-3">
+    <PopupAddDeath/>
+  </v-flex>
+
+  <v-btn @click="addDeath('user', 'date', 'how')">add to database</v-btn>
 
 </div>
 </template>
 
 <script>
+import db from '@/fb'
+import PopupAddDeath from '@/components/PopupAddDeath'
 export default {
+  components: { PopupAddDeath },
   data() {
     return {
       dialog: false,
@@ -139,12 +148,16 @@ export default {
       this.murders.sort((a, b) => a[prop] > b[prop] ? -1 : 1)
     },
     addDeath(user, date, how) {
-      this.murders.push({
-        name: name,
-        date: date,
-        how: how,
-        rate: 0
-      });
+      const project = {
+          user: this.user,
+          date: this.date,
+          how: this.how,
+          rate: 0
+        }
+        db.collection('deaths').add(project).then(() => {
+          console.log('added to db')
+        })
+
     },
     rateDeath(element, rate) {
       this.murders[element].rate = rate
