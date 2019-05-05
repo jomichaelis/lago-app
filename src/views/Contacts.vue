@@ -12,12 +12,12 @@
         <v-flex xs12 sm6 md4 lg3 v-for="person in contacts" :key="person.name">
           <v-card flat class="text-xs-center ma-3">
             <v-responsive class="pt-4">
-              <v-avatar size="100" class="grey lighten-2">
+              <v-avatar size="100" class="blue">
                 <img :src="person.avatar">
               </v-avatar>
             </v-responsive>
             <v-card-text>
-              <div class="subheading">{{ person.name }}</div>
+              <div class="subheading">{{ person.shortname }}</div>
               <div class="grey--text">{{ person.age }}</div>
             </v-card-text>
             <v-card-actions>
@@ -36,17 +36,28 @@
 </template>
 
 <script>
+import db from '@/fb'
+
 export default {
   data() {
     return {
-      contacts: [
-        { name: 'Johannes', age: 20, avatar: '/avatar-1.png'},
-        { name: 'Katha', age: 16, avatar: '/avatar-2.png'},
-        { name: 'Boris', age: 19, avatar: '/avatar-3.png'},
-        { name: 'Liesl', age: 15, avatar: '/avatar-4.png'},
-        { name: 'Tobi', age: 20, avatar: '/avatar-5.png'}
-      ]
+      contacts: []
     }
+  },
+
+  created() {
+    db.collection('users').onSnapshot(res => {
+      const changes = res.docChanges();
+      changes.forEach(change => {
+        if(change.type === 'added') {
+          this.contacts.push({
+            ...change.doc.data(),
+            id: change.doc.id
+          })
+        }
+      })
+    })
   }
+
 }
 </script>
