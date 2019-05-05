@@ -12,7 +12,7 @@
         <v-flex xs12 sm6 md4 lg3 v-for="person in contacts" :key="person.name">
           <v-card flat class="text-xs-center ma-3">
             <v-responsive class="pt-4">
-              <v-avatar size="100" class="grey lighten-2">
+              <v-avatar size="100" class="blue">
                 <img :src="person.avatar">
               </v-avatar>
             </v-responsive>
@@ -44,6 +44,7 @@ export default {
       contacts: []
     }
   },
+
   created() {
     db.collection('users').onSnapshot(res => {
       const changes = res.docChanges();
@@ -57,5 +58,6 @@ export default {
       })
     })
   }
+
 }
 </script>
