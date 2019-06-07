@@ -5,6 +5,7 @@ import Calendar from './views/Calendar.vue'
 import Contacts from './views/Contacts.vue'
 import Gallery from './views/Gallery.vue'
 import MurderGame from './views/MurderGame.vue'
+import LogIn from './views/LogIn.vue'
 
 Vue.use(Router)
 
@@ -36,6 +37,11 @@ export default new Router({
       path: '/murdergame',
       name: 'murdergame',
       component: MurderGame
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LogIn
     }
   ]
 })
