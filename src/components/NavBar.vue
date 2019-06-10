@@ -67,6 +67,11 @@ export default {
           icon: 'assistant_photo',
           text: 'Mörderspiel',
           route: '/murdergame'
+        },
+        {
+          icon: 'message',
+          text: 'Chat',
+          route: '/chat'
         }
       ]
     }

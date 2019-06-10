@@ -6,6 +6,7 @@ import Contacts from './views/Contacts.vue'
 import Gallery from './views/Gallery.vue'
 import MurderGame from './views/MurderGame.vue'
 import LogIn from './views/LogIn.vue'
+import Chat from './views/Chat.vue'
 
 Vue.use(Router)
 
@@ -42,6 +43,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: LogIn
+    },
+    {
+      path: '/chat',
+      name: 'chat',
+      component: Chat
     }
   ]
 })
