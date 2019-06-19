@@ -8,8 +8,17 @@
     </v-layout>
 
     <v-container class="my-5">
-      <v-layout row wrap>
-        <v-flex xs12 sm6 md4 lg3 v-for="person in contacts" :key="person.name">
+      <v-layout row wrap v-for="n in 5">
+        <v-flex>
+          <v-card color="grey lighten-2" flat style="border-radius: 25px; margin-bottom: 10px">
+            <v-card-title class="font-weight-bold" primary-title style="padding: 15px; padding-bottom: 3px">
+              User
+            </v-card-title>
+            <v-card-text style="padding: 15px; padding-top: 3px">
+              message
+            </v-card-text>
+          </v-card>
+          <v-spacer></v-spacer>
         </v-flex>
       </v-layout>
 
@@ -19,12 +28,11 @@
 </template>
 
 <script>
-import db from '@/fb'
 
 export default {
   data() {
     return {
-      contacts: []
+      messages: []
     }
   }
 }

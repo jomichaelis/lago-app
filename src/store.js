@@ -8,7 +8,8 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   state: {
     user: null,
-    loading: false
+    loading: false,
+    chatmessages: []
   },
   mutations: {
     setUser(state, payload) {
@@ -16,10 +17,12 @@ export const store = new Vuex.Store({
     },
     setLoading(state, payload) {
       state.loading = payload
-    }
+    },
+    addChatMessage(state, payload) {
+      state.chatmessages.push(payload)
+    },
   },
   actions: {
-
     signUserIn({
       commit
     }, payload) {
@@ -49,7 +52,28 @@ export const store = new Vuex.Store({
           }
         )
       console.log("User logged out")
-    }
+    },
+    addChatMessage({
+      commit
+    }, payload) {
+      const message = {
+        user: payload.user,
+        date: payload.date,
+        message: payload.message
+      }
+      const id = message.date + "_" + message.user
+      // Add a new document with a generated id.
+      db.collection('chat').doc(id).set(message)
+        .then(() => {
+          commit('addChatMessage', {
+            ...message,
+            id: id
+          });
+        })
+        .catch((error) => {
+          console.error(error);
+        })
+    },
 
   },
   getters: {
