@@ -87,7 +87,6 @@ export default {
     imageUrl: '',
     title: '',
     descr: '',
-    time: 0,
     user: 'thisuser',
     hashtags: '',
     likes: 0,
@@ -106,7 +105,6 @@ export default {
       const postData = {
         title: this.title,
         descr: this.descr,
-        time: this.time,
         user: this.user,
         hashtags: this.hashtags,
         likes: this.likes,

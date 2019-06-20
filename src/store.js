@@ -64,15 +64,17 @@ export const store = new Vuex.Store({
       let post = {
         title: payload.title,
         descr: payload.descr,
-        time: payload.time,
+        time: new firebase.firestore.Timestamp.now(),
         user: payload.user,
         hashtags: payload.hashtags,
         likes: payload.likes
       }
+      let time = post.time.toDate()
+      let idTime = time.getUTCFullYear() + "." + (time.getUTCMonth() + 1) + "." + time.getUTCDate() + "_" + time.getUTCHours() + "." + time.getUTCMinutes() + "." + time.getUTCSeconds()
       let key
       let filename
       let ext
-      const id = post.time + "_" + post.user + "_" + post.title
+      const id = idTime + "_" + post.user + "_" + post.title
       db.collection("posts").doc(id).set(post)
         .then(() => {
           filename = payload.image.name
@@ -117,8 +119,6 @@ export const store = new Vuex.Store({
             })
           });
           commit('setLoadedPosts', posts)
-          console.log("SuccesfullyLoaded")
-          console.log(posts)
         })
         .catch(
           (error) => {
