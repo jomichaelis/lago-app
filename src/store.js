@@ -2,13 +2,15 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as firebase from 'firebase'
 import db from '@/fb'
+import storage from '@/fb'
 
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
   state: {
     user: null,
-    loading: false
+    loading: false,
+    loadedPosts: []
   },
   mutations: {
     setUser(state, payload) {
@@ -16,10 +18,15 @@ export const store = new Vuex.Store({
     },
     setLoading(state, payload) {
       state.loading = payload
-    }
+    },
+    createPost(state, payload) {
+      state.loadedPosts.push(payload)
+    },
+    setLoadedPosts(state, payload) {
+      state.loadedPosts = payload
+    },
   },
   actions: {
-
     signUserIn({
       commit
     }, payload) {
@@ -49,8 +56,76 @@ export const store = new Vuex.Store({
           }
         )
       console.log("User logged out")
-    }
+    },
 
+    createPost({
+      commit
+    }, payload) {
+      let post = {
+        title: payload.title,
+        descr: payload.descr,
+        time: payload.time,
+        user: payload.user,
+        hashtags: payload.hashtags,
+        likes: payload.likes
+      }
+      let key
+      let filename
+      let ext
+      const id = post.time + "_" + post.user + "_" + post.title
+      db.collection("posts").doc(id).set(post)
+        .then(() => {
+          filename = payload.image.name
+          ext = filename.slice(filename.lastIndexOf('.'))
+          return firebase.storage().ref('gallery/' + id + ext).put(payload.image)
+        })
+        .then(() => {
+          firebase.storage().ref('gallery/' + id + ext).getDownloadURL().then(function(downloadURL) {
+            db.collection('posts').doc(id).update({
+                imageUrl: downloadURL,
+                id: id
+              }),
+              commit('createPost', {
+                ...post,
+                imageUrl: downloadURL,
+                id: id
+              })
+          })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+
+    loadPosts({
+      commit
+    }) {
+      db.collection("posts").get()
+        .then(function(querySnapshot) {
+          const posts = []
+          querySnapshot.forEach(function(doc) {
+            const obj = doc.data()
+            posts.push({
+              id: doc.id,
+              title: obj.title,
+              descr: obj.descr,
+              time: obj.time,
+              user: obj.user,
+              hastags: obj.hashtags,
+              likes: obj.likes,
+              imageUrl: obj.imageUrl
+            })
+          });
+          commit('setLoadedPosts', posts)
+          console.log("SuccesfullyLoaded")
+          console.log(posts)
+        })
+        .catch(
+          (error) => {
+            console.log(error)
+          }
+        )
+    }
   },
   getters: {
     getactive(state) {
@@ -59,8 +134,8 @@ export const store = new Vuex.Store({
       }
     },
     user(state) {
-      return state.user
-      //return true
+      //return state.user
+      return true
     },
     findUser(state) {
       var value = state.loadedPersons.filter(function(elem) {
@@ -76,6 +151,9 @@ export const store = new Vuex.Store({
     },
     loading(state) {
       return state.loading
+    },
+    getAllPosts(state) {
+      return state.loadedPosts
     }
   }
 })
