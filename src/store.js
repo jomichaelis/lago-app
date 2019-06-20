@@ -134,8 +134,8 @@ export const store = new Vuex.Store({
       }
     },
     user(state) {
-      //return state.user
-      return true
+      return state.user
+      //return true
     },
     findUser(state) {
       var value = state.loadedPersons.filter(function(elem) {
