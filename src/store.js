@@ -10,7 +10,8 @@ export const store = new Vuex.Store({
   state: {
     user: null,
     loading: false,
-    loadedPosts: []
+    loadedPosts: [],
+    loadedEvents: []
   },
   mutations: {
     setUser(state, payload) {
@@ -24,6 +25,9 @@ export const store = new Vuex.Store({
     },
     setLoadedPosts(state, payload) {
       state.loadedPosts = payload
+    },
+    setLoadedEvents(state, payload) {
+      state.loadedEvents = payload
     },
   },
   actions: {
@@ -136,6 +140,32 @@ export const store = new Vuex.Store({
             console.log(error)
           }
         )
+    },
+
+    loadCalendar({
+      commit
+    }) {
+      db.collection("calendar").get()
+        .then(function(querySnapshot) {
+          const events = []
+          querySnapshot.forEach(function(doc) {
+            const obj = doc.data()
+            events.push({
+              id: doc.id,
+              title: obj.title,
+              descr: obj.descr,
+              day: obj.day,
+              time: obj.time,
+              location: obj.location
+            })
+          });
+          commit('setLoadedEvents', events)
+        })
+        .catch(
+          (error) => {
+            console.log(error)
+          }
+        )
     }
   },
   getters: {
@@ -165,6 +195,12 @@ export const store = new Vuex.Store({
     },
     getAllPosts(state) {
       return state.loadedPosts
+    },
+    getAllEvents(state) {
+      return state.loadedEvents
+    },
+    getDay(state) {
+      return 1
     }
   }
 })
