@@ -21,13 +21,13 @@
     </v-img>
     <v-card-text class="py-0 mt-3">
       <v-timeline align-top dense>
-        <v-timeline-item v-for="event in days[today].events" color="blue" small>
+        <v-timeline-item v-for="event in events" color="blue" small>
           <v-layout wrap pt-3>
             <v-flex xs3>
               <strong>{{event.time}}</strong>
             </v-flex>
             <v-flex>
-              <strong>{{event.eventname}}</strong>
+              <strong>{{event.title}}</strong>
               <div class="caption mb-2">{{event.descr}}</div>
               <v-avatar v-for="hosts in event.hosts">
                 <img
@@ -45,27 +45,12 @@
 
 <script>
 export default {
-  data() {
-    return {
-      today: 0,
-      color: 'yellow',
-      days: [{
-        day: 1,
-        events: [{
-            time: '09:00',
-            eventname: 'Frühstück',
-            descr: 'Happa happa',
-            color: 'yellow'
-          },
-          {
-            time: '10:00',
-            eventname: 'Spielen',
-            descr: 'game-time',
-            color: 'pink',
-            hosts: ['Bärbel', 'Lukas']
-          }
-        ]
-      }]
+  computed: {
+    events() {
+      return this.$store.getters.getAllEvents
+    },
+    today() {
+      return this.$store.getters.getDay
     }
   },
 }

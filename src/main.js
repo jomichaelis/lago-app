@@ -12,5 +12,6 @@ new Vue({
   render: h => h(App),
   created() {
     this.$store.dispatch('loadPosts')
+    this.$store.dispatch('loadCalendar')
   }
 }).$mount('#app')
