@@ -8,7 +8,7 @@
   </v-layout>
 
   <v-container class="my-5">
-    <v-img src="https://cdn.vuetifyjs.com/images/cards/forest.jpg" gradient="to top, rgba(0,0,0,.44), rgba(0,0,0,.44)" height="200px">
+    <v-img :src="require('@/assets/lago.jpeg')" gradient="to top, rgba(0,0,0,.44), rgba(0,0,0,.44)" height="200px">
       <v-container fill-height>
         <v-layout align-center>
           <strong class="display-3 font-weight-regular mr-4 white--text">Tag {{today}}</strong>

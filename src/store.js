@@ -70,11 +70,23 @@ export const store = new Vuex.Store({
         likes: payload.likes
       }
       let time = post.time.toDate()
-      let idTime = time.getUTCFullYear() + "." + (time.getUTCMonth() + 1) + "." + time.getUTCDate() + "_" + time.getUTCHours() + "." + time.getUTCMinutes() + "." + time.getUTCSeconds()
+      let yr = time.getUTCFullYear()
+      let mt = time.getUTCMonth() + 1;
+      (mt < 10) ? (mt = "0" + mt) : (mt = mt)
+      let dy = time.getUTCDate();
+      (dy < 10) ? (dy = "0" + dy) : (dy = dy)
+      let hr = time.getUTCHours();
+      (hr < 10) ? (hr = "0" + hr) : (hr = hr)
+      let mn = time.getUTCMinutes();
+      (mn < 10) ? (mn = "0" + mn) : (mn = mn)
+      let sc = time.getUTCSeconds();
+      (sc < 10) ? (sc = "0" + sc) : (sc = sc)
+      let idTime = yr + "." + mt + "." + dy + "_" + hr + "." + mn + "." + sc
       let key
       let filename
       let ext
-      const id = idTime + "_" + post.user + "_" + post.title
+      let id = idTime + "_" + post.user + "_" + post.title
+      id = id.replace(/ /g, '')
       db.collection("posts").doc(id).set(post)
         .then(() => {
           filename = payload.image.name
@@ -84,8 +96,7 @@ export const store = new Vuex.Store({
         .then(() => {
           firebase.storage().ref('gallery/' + id + ext).getDownloadURL().then(function(downloadURL) {
             db.collection('posts').doc(id).update({
-                imageUrl: downloadURL,
-                id: id
+                imageUrl: downloadURL
               }),
               commit('createPost', {
                 ...post,
