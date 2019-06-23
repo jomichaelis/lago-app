@@ -13,6 +13,7 @@ export const store = new Vuex.Store({
     loadedPosts: [],
     loadedEvents: [],
     adminSettings: {},
+    colors: [],
     loadedPersons: [],
     weekday: [
       "Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"
@@ -37,11 +38,17 @@ export const store = new Vuex.Store({
     setLoadedEvents(state, payload) {
       state.loadedEvents = payload
     },
+    createEvent(state, payload) {
+      state.loadedEvents.push(payload)
+    },
     setAdminSettings(state, payload) {
       state.adminSettings = payload
     },
     setLoadedPersons(state, payload) {
       state.loadedPersons = payload
+    },
+    setLoadedColors(state, payload) {
+      state.colors = payload
     }
   },
   actions: {
@@ -74,6 +81,30 @@ export const store = new Vuex.Store({
           }
         )
       console.log("User logged out")
+    },
+
+    loadColors({
+      commit
+    }) {
+      db.collection("colors").get()
+        .then(function(querySnapshot) {
+          const colors = []
+          querySnapshot.forEach(function(doc) {
+            const obj = doc.data()
+            colors.push({
+              id: doc.id,
+              color: obj.color,
+              dark: obj.dark,
+              dispname: obj.dispname
+            })
+          });
+          commit('setLoadedColors', colors)
+        })
+        .catch(
+          (error) => {
+            console.log(error)
+          }
+        )
     },
 
     createPost({
@@ -126,6 +157,38 @@ export const store = new Vuex.Store({
         .catch((error) => {
           console.log(error)
         })
+    },
+
+    createEvent({
+      commit
+    }, payload) {
+      let event = {
+        title: payload.title,
+        descr: payload.descr,
+        time: payload.time,
+        location: payload.location,
+        hosts: payload.hosts,
+        day: payload.day,
+        color: payload.color
+      }
+      event.day = event.day.substring(4, 100);
+      event.day = parseInt(event.day);
+      let firstday = this.state.adminSettings.firstday;
+      let beginn = firstday.getTime();
+      let timestamp = beginn + ((event.day - 1) * 24 * 60 * 60 * 1000);
+      let timemillis = (parseInt(event.time.substring(0, 2)) * 60 + parseInt(event.time.substring(3, 6))) * 60 * 1000;
+      timestamp = timestamp + timemillis;
+      let dayid = event.day;
+      (dayid < 10) ? (dayid = "0" + dayid) : (dayid = dayid);
+      let id = dayid + "#" + event.time + "_" + event.title;
+      id = id.replace(/ /g, '');
+      let time = new firebase.firestore.Timestamp(timestamp / 1000);
+      event.time = time;
+      db.collection("calendar").doc(id).set(event)
+        .catch((error) => {
+          console.log(error)
+        })
+      commit('createEvent', event)
     },
 
     loadPosts({
@@ -288,15 +351,8 @@ export const store = new Vuex.Store({
       let firstday = state.adminSettings.firstday;
       let diff = now.getTime() - firstday.getTime();
       let negative = false;
-      if (diff < 0) {
-        diff = -diff;
-        negative = true;
-      }
-      let diffdate = new Date(diff);
-      if (negative) {
-        return -diffdate.getDate()
-      }
-      return diffdate.getDate()
+      let day = Math.floor((diff / 1000 / 60 / 60) / 24) + 1;
+      return day
     },
     getDate(state) {
       return new Date()
@@ -309,6 +365,9 @@ export const store = new Vuex.Store({
     },
     getAdminSettings(state) {
       return state.adminSettings
+    },
+    getColors(state) {
+      return state.colors
     }
   }
 })
