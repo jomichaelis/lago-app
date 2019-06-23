@@ -12,6 +12,7 @@ export const store = new Vuex.Store({
     loading: false,
     loadedPosts: [],
     loadedEvents: [],
+    adminSettings: {},
     loadedPersons: [],
     weekday: [
       "Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"
@@ -35,6 +36,9 @@ export const store = new Vuex.Store({
     },
     setLoadedEvents(state, payload) {
       state.loadedEvents = payload
+    },
+    setAdminSettings(state, payload) {
+      state.adminSettings = payload
     },
     setLoadedPersons(state, payload) {
       state.loadedPersons = payload
@@ -179,6 +183,24 @@ export const store = new Vuex.Store({
           }
         )
     },
+    
+    loadAdminSettings({
+      commit
+    }) {
+      db.collection("adminsettings").doc("adminsettings").get()
+        .then(function(doc) {
+          var adminsettings = doc.data();
+          adminsettings.firstday = adminsettings.firstday.toDate();
+          adminsettings.lastday = adminsettings.lastday.toDate();
+          commit('setAdminSettings', adminsettings)
+        })
+        .catch(
+          (error) => {
+            console.log(error)
+          }
+        )
+    },
+             
     loadPersons({
       commit
     }) {
@@ -203,8 +225,30 @@ export const store = new Vuex.Store({
             console.log(error)
           }
         )
+    },
+
+    updateAdminSettings({
+      commit
+    }, payload) {
+      const adminsettings = {
+        calendar: payload.calendar,
+        contacts: payload.contacts,
+        gallery: payload.gallery,
+        murdergame: payload.murdergame,
+        firstday: payload.firstday,
+        lastday: payload.lastday
+      }
+      db.collection('adminsettings').doc("adminsettings").update(adminsettings)
+        .then(() => {
+          commit('setAdminSettings', adminsettings);
+        })
+        .catch((error) => {
+          console.error(error);
+        })
     }
+    
   },
+  
   getters: {
     getactive(state) {
       return (link) => {
@@ -249,6 +293,9 @@ export const store = new Vuex.Store({
     },
     getPersonByID: (state) => (id) => {
       return state.loadedPersons.find(loadedPersons => loadedPersons.id === id)
+    },
+    getAdminSettings(state) {
+      return state.adminSettings
     }
   }
 })
