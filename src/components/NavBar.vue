@@ -3,8 +3,8 @@
   <v-toolbar flat app>
     <v-toolbar-side-icon @click="drawer = !drawer" class="orange--text" v-if="loggedIn"></v-toolbar-side-icon>
     <v-toolbar-title class="text-lowercase orange--text">
-      <span class="font-weight-light">konfi.</span>
-      <span>online</span>
+      <span class="font-weight-light">lago.</span>
+      <span>app</span>
     </v-toolbar-title>
     <v-spacer></v-spacer>
 
@@ -25,6 +25,18 @@
           <v-list-tile v-for="link in links" :key="link.text" router :to="link.route" class="list-item v-list__tile">
             <v-list-tile-action>
               <v-icon class="white--text">{{ link.icon }}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title class="white--text body-2">{{ link.text }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+        <v-spacer></v-spacer>
+        <v-subheader class="mt-3 white--text">Admin</v-subheader>
+        <v-list>
+          <v-list-tile v-for="link in adminlinks" :key="link.text" router :to="link.route" class="list-item v-list__tile">
+            <v-list-tile-action>
+              <v-icon color="white">{{ link.icon }}</v-icon>
             </v-list-tile-action>
             <v-list-tile-content>
               <v-list-tile-title class="white--text body-2">{{ link.text }}</v-list-tile-title>
@@ -67,6 +79,12 @@ export default {
           icon: 'assistant_photo',
           text: 'Mörderspiel',
           route: '/murdergame'
+        }
+      ],
+      adminlinks: [{
+          icon: 'settings',
+          text: 'Einstellungen',
+          route: '/admin'
         }
       ]
     }

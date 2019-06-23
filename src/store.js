@@ -11,7 +11,8 @@ export const store = new Vuex.Store({
     user: null,
     loading: false,
     loadedPosts: [],
-    loadedEvents: []
+    loadedEvents: [],
+    adminSettings: {}
   },
   mutations: {
     setUser(state, payload) {
@@ -29,6 +30,9 @@ export const store = new Vuex.Store({
     setLoadedEvents(state, payload) {
       state.loadedEvents = payload
     },
+    setAdminSettings(state, payload) {
+      state.adminSettings = payload
+    }
   },
   actions: {
     signUserIn({
@@ -166,6 +170,43 @@ export const store = new Vuex.Store({
             console.log(error)
           }
         )
+    },
+
+    loadAdminSettings({
+      commit
+    }) {
+      db.collection("adminsettings").doc("adminsettings").get()
+        .then(function(doc) {
+          var adminsettings = doc.data();
+          adminsettings.firstday = adminsettings.firstday.toDate();
+          adminsettings.lastday = adminsettings.lastday.toDate();
+          commit('setAdminSettings', adminsettings)
+        })
+        .catch(
+          (error) => {
+            console.log(error)
+          }
+        )
+    },
+
+    updateAdminSettings({
+      commit
+    }, payload) {
+      const adminsettings = {
+        calendar: payload.calendar,
+        contacts: payload.contacts,
+        gallery: payload.gallery,
+        murdergame: payload.murdergame,
+        firstday: payload.firstday,
+        lastday: payload.lastday
+      }
+      db.collection('adminsettings').doc("adminsettings").update(adminsettings)
+        .then(() => {
+          commit('setAdminSettings', adminsettings);
+        })
+        .catch((error) => {
+          console.error(error);
+        })
     }
   },
   getters: {
@@ -175,8 +216,8 @@ export const store = new Vuex.Store({
       }
     },
     user(state) {
-      return state.user
-      //return true
+      //return state.user
+      return true
     },
     findUser(state) {
       var value = state.loadedPersons.filter(function(elem) {
@@ -201,6 +242,9 @@ export const store = new Vuex.Store({
     },
     getDay(state) {
       return 1
-    }
+    },
+    getAdminSettings(state) {
+      return state.adminSettings
+    },
   }
 })
