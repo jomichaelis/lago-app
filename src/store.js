@@ -11,7 +11,8 @@ export const store = new Vuex.Store({
     user: null,
     loading: false,
     loadedPosts: [],
-    loadedEvents: []
+    loadedEvents: [],
+    loadedPersons: []
   },
   mutations: {
     setUser(state, payload) {
@@ -29,6 +30,9 @@ export const store = new Vuex.Store({
     setLoadedEvents(state, payload) {
       state.loadedEvents = payload
     },
+    setLoadedPersons(state, payload) {
+      state.loadedPersons = payload
+    }
   },
   actions: {
     signUserIn({
@@ -156,10 +160,37 @@ export const store = new Vuex.Store({
               descr: obj.descr,
               day: obj.day,
               time: obj.time,
-              location: obj.location
+              location: obj.location,
+              hosts: obj.hosts,
+              color: obj.color
             })
           });
           commit('setLoadedEvents', events)
+        })
+        .catch(
+          (error) => {
+            console.log(error)
+          }
+        )
+    },
+    loadPersons({
+      commit
+    }) {
+      db.collection("users").get()
+        .then(function(querySnapshot) {
+          const users = []
+          querySnapshot.forEach(function(doc) {
+            const obj = doc.data()
+            users.push({
+              id: doc.id,
+              firstname: obj.firstname,
+              lastname: obj.lastname,
+              shortname: obj.shortname,
+              age: obj.age,
+              avatar: obj.avatar
+            })
+          });
+          commit('setLoadedPersons', users)
         })
         .catch(
           (error) => {
@@ -175,8 +206,8 @@ export const store = new Vuex.Store({
       }
     },
     user(state) {
-      return state.user
-      //return true
+      //return state.user
+      return true
     },
     findUser(state) {
       var value = state.loadedPersons.filter(function(elem) {
@@ -201,6 +232,12 @@ export const store = new Vuex.Store({
     },
     getDay(state) {
       return 1
+    },
+    getLoadedPersons(state) {
+      return state.loadedPersons
+    },
+    getPersonByID: (state) => (id) => {
+      return state.loadedPersons.find(loadedPersons => loadedPersons.id === id)
     }
   }
 })

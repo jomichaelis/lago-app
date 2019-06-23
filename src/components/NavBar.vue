@@ -81,12 +81,6 @@ export default {
     loggedIn() {
       return (this.$store.getters.user !== null)
       //return true
-    },
-    username() {
-      return this.$store.getters.findUser
-    },
-    avatar() {
-      return this.$store.getters.getAvatar
     }
   }
 }

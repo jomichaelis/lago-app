@@ -21,17 +21,17 @@
     </v-img>
     <v-card-text class="py-0 mt-3">
       <v-timeline align-top dense>
-        <v-timeline-item v-for="event in events" color="blue" small>
+        <v-timeline-item v-for="event in events" v-bind:color="event.color" small>
           <v-layout wrap pt-3>
             <v-flex xs3>
-              <strong>{{event.time}}</strong>
+              <strong>{{event.time.toDate().getHours()}}:{{event.time.toDate().getMinutes()}}</strong>
             </v-flex>
             <v-flex>
               <strong>{{event.title}}</strong>
               <div class="caption mb-2">{{event.descr}}</div>
-              <v-avatar v-for="hosts in event.hosts">
+              <v-avatar v-for="host in event.hosts">
                 <img
-                  src='https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortFlat&accessoriesType=Blank&hairColor=BlondeGolden&facialHairType=Blank&clotheType=ShirtVNeck&clotheColor=Blue03&eyeType=Default&eyebrowType=UpDown&mouthType=Default&skinColor=Light' />
+                  :src="getPersonByID(host.id).avatar" />
                 </img>
               </v-avatar>
             </v-flex>
@@ -53,5 +53,10 @@ export default {
       return this.$store.getters.getDay
     }
   },
+  methods: {
+    getPersonByID(id) {
+      return this.$store.getters.getPersonByID(id)
+    }
+  }
 }
 </script>
