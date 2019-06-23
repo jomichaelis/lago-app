@@ -34,6 +34,12 @@
         </form>
       </v-flex>
     </v-layout>
+    <v-fab-transition>
+      <v-btn color="red" dark fab fixed bottom right @click="dialog = !dialog">
+        <v-icon>add</v-icon>
+        <v-icon>close</v-icon>
+      </v-btn>
+    </v-fab-transition>
   </v-container>
 </div>
 </template>
