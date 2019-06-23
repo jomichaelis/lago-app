@@ -280,6 +280,9 @@ export const store = new Vuex.Store({
     getAllEvents(state) {
       return state.loadedEvents
     },
+    getEventsByDay: (state) => (day) => {
+      return state.loadedEvents.filter(loadedEvents => loadedEvents.day === day)
+    },
     getDay(state) {
       let now = new Date();
       let firstday = state.adminSettings.firstday;
