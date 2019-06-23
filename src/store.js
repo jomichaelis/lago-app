@@ -12,7 +12,14 @@ export const store = new Vuex.Store({
     loading: false,
     loadedPosts: [],
     loadedEvents: [],
-    adminSettings: {}
+    adminSettings: {},
+    loadedPersons: [],
+    weekday: [
+      "Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"
+    ],
+    month: [
+      "Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"
+    ]
   },
   mutations: {
     setUser(state, payload) {
@@ -32,6 +39,9 @@ export const store = new Vuex.Store({
     },
     setAdminSettings(state, payload) {
       state.adminSettings = payload
+    },
+    setLoadedPersons(state, payload) {
+      state.loadedPersons = payload
     }
   },
   actions: {
@@ -160,7 +170,9 @@ export const store = new Vuex.Store({
               descr: obj.descr,
               day: obj.day,
               time: obj.time,
-              location: obj.location
+              location: obj.location,
+              hosts: obj.hosts,
+              color: obj.color
             })
           });
           commit('setLoadedEvents', events)
@@ -171,7 +183,7 @@ export const store = new Vuex.Store({
           }
         )
     },
-
+    
     loadAdminSettings({
       commit
     }) {
@@ -181,6 +193,32 @@ export const store = new Vuex.Store({
           adminsettings.firstday = adminsettings.firstday.toDate();
           adminsettings.lastday = adminsettings.lastday.toDate();
           commit('setAdminSettings', adminsettings)
+        })
+        .catch(
+          (error) => {
+            console.log(error)
+          }
+        )
+    },
+             
+    loadPersons({
+      commit
+    }) {
+      db.collection("users").get()
+        .then(function(querySnapshot) {
+          const users = []
+          querySnapshot.forEach(function(doc) {
+            const obj = doc.data()
+            users.push({
+              id: doc.id,
+              firstname: obj.firstname,
+              lastname: obj.lastname,
+              shortname: obj.shortname,
+              age: obj.age,
+              avatar: obj.avatar
+            })
+          });
+          commit('setLoadedPersons', users)
         })
         .catch(
           (error) => {
@@ -208,7 +246,9 @@ export const store = new Vuex.Store({
           console.error(error);
         })
     }
+    
   },
+  
   getters: {
     getactive(state) {
       return (link) => {
@@ -241,10 +281,21 @@ export const store = new Vuex.Store({
       return state.loadedEvents
     },
     getDay(state) {
-      return 1
+      let nows = new firebase.firestore.Timestamp.now();
+      let firstday = state.loadedAdminSettings.firstday;
+      return (nows-firstday).toDate()
+    },
+    getDate(state) {
+      return new Date()
+    },
+    getLoadedPersons(state) {
+      return state.loadedPersons
+    },
+    getPersonByID: (state) => (id) => {
+      return state.loadedPersons.find(loadedPersons => loadedPersons.id === id)
     },
     getAdminSettings(state) {
       return state.adminSettings
-    },
+    }
   }
 })

@@ -14,5 +14,6 @@ new Vue({
     this.$store.dispatch('loadPosts')
     this.$store.dispatch('loadCalendar')
     this.$store.dispatch('loadAdminSettings')
+    this.$store.dispatch('loadPersons')
   }
 }).$mount('#app')
