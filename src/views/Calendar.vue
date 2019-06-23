@@ -21,7 +21,7 @@
     </v-img>
     <v-card-text class="py-0 mt-3">
       <v-timeline align-top dense>
-        <v-timeline-item v-for="event in events" v-bind:color="event.color" small>
+        <v-timeline-item v-for="event in events(today)" v-bind:color="event.color" small>
           <v-layout wrap pt-3>
             <v-flex xs3>
               <strong>{{event.time.toDate().getHours()}}:{{event.time.toDate().getMinutes()}}</strong>
@@ -48,9 +48,6 @@
 <script>
 export default {
   computed: {
-    events() {
-      return this.$store.getters.getAllEvents
-    },
     today() {
       return this.$store.getters.getDay
     },
@@ -67,6 +64,9 @@ export default {
     },
     getMonth(month) {
       return this.$store.state.month[month]
+    },
+    events(today) {
+      return this.$store.getters.getEventsByDay(today)
     }
   }
 }
