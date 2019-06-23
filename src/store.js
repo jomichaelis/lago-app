@@ -183,7 +183,7 @@ export const store = new Vuex.Store({
           }
         )
     },
-    
+
     loadAdminSettings({
       commit
     }) {
@@ -200,7 +200,7 @@ export const store = new Vuex.Store({
           }
         )
     },
-             
+
     loadPersons({
       commit
     }) {
@@ -246,9 +246,9 @@ export const store = new Vuex.Store({
           console.error(error);
         })
     }
-    
+
   },
-  
+
   getters: {
     getactive(state) {
       return (link) => {
@@ -281,9 +281,19 @@ export const store = new Vuex.Store({
       return state.loadedEvents
     },
     getDay(state) {
-      let nows = new firebase.firestore.Timestamp.now();
-      let firstday = state.loadedAdminSettings.firstday;
-      return (nows-firstday).toDate()
+      let now = new Date();
+      let firstday = state.adminSettings.firstday;
+      let diff = now.getTime() - firstday.getTime();
+      let negative = false;
+      if (diff < 0) {
+        diff = -diff;
+        negative = true;
+      }
+      let diffdate = new Date(diff);
+      if (negative) {
+        return -diffdate.getDate()
+      }
+      return diffdate.getDate()
     },
     getDate(state) {
       return new Date()
