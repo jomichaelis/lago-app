@@ -12,7 +12,13 @@ export const store = new Vuex.Store({
     loading: false,
     loadedPosts: [],
     loadedEvents: [],
-    loadedPersons: []
+    loadedPersons: [],
+    weekday: [
+      "Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"
+    ],
+    month: [
+      "Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"
+    ]
   },
   mutations: {
     setUser(state, payload) {
@@ -231,7 +237,12 @@ export const store = new Vuex.Store({
       return state.loadedEvents
     },
     getDay(state) {
-      return 1
+      let nows = new firebase.firestore.Timestamp.now();
+      let firstday = state.loadedAdminSettings.firstday;
+      return (nows-firstday).toDate()
+    },
+    getDate(state) {
+      return new Date()
     },
     getLoadedPersons(state) {
       return state.loadedPersons

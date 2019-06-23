@@ -13,8 +13,8 @@
         <v-layout align-center>
           <strong class="display-3 font-weight-regular mr-4 white--text">Tag {{today}}</strong>
           <v-layout column justify-end>
-            <div class="headline font-weight-light white--text">Monday</div>
-            <div class="text-uppercase font-weight-light white--text">February 2015</div>
+            <div class="headline font-weight-light white--text">{{getWeekday(date.getDay())}}</div>
+            <div class="text-uppercase font-weight-light white--text">{{date.getDate()}}. {{getMonth(date.getUTCMonth())}} {{date.getUTCFullYear()}}</div>
           </v-layout>
         </v-layout>
       </v-container>
@@ -53,11 +53,20 @@ export default {
     },
     today() {
       return this.$store.getters.getDay
+    },
+    date() {
+      return this.$store.getters.getDate
     }
   },
   methods: {
     getPersonByID(id) {
       return this.$store.getters.getPersonByID(id)
+    },
+    getWeekday(day) {
+      return this.$store.state.weekday[day]
+    },
+    getMonth(month) {
+      return this.$store.state.month[month]
     }
   }
 }
