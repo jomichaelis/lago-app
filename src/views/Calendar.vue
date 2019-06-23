@@ -29,10 +29,12 @@
             <v-flex>
               <strong>{{event.title}}</strong>
               <div class="caption mb-2">{{event.descr}}</div>
+              <div class="caption mb-2">
+                <v-icon small>location_on</v-icon>
+                {{event.location}}
+              </div>
               <v-avatar v-for="host in event.hosts">
-                <img
-                  :src="getPersonByID(host.id).avatar" />
-                </img>
+                <img :src="getPersonByID(host.id).avatar" />
               </v-avatar>
             </v-flex>
           </v-layout>
