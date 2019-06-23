@@ -13,5 +13,6 @@ new Vue({
   created() {
     this.$store.dispatch('loadPosts')
     this.$store.dispatch('loadCalendar')
+    this.$store.dispatch('loadPersons')
   }
 }).$mount('#app')

@@ -13,26 +13,28 @@
         <v-layout align-center>
           <strong class="display-3 font-weight-regular mr-4 white--text">Tag {{today}}</strong>
           <v-layout column justify-end>
-            <div class="headline font-weight-light white--text">Monday</div>
-            <div class="text-uppercase font-weight-light white--text">February 2015</div>
+            <div class="headline font-weight-light white--text">{{getWeekday(date.getDay())}}</div>
+            <div class="text-uppercase font-weight-light white--text">{{date.getDate()}}. {{getMonth(date.getUTCMonth())}} {{date.getUTCFullYear()}}</div>
           </v-layout>
         </v-layout>
       </v-container>
     </v-img>
     <v-card-text class="py-0 mt-3">
       <v-timeline align-top dense>
-        <v-timeline-item v-for="event in events" color="blue" small>
+        <v-timeline-item v-for="event in events" v-bind:color="event.color" small>
           <v-layout wrap pt-3>
             <v-flex xs3>
-              <strong>{{event.time}}</strong>
+              <strong>{{event.time.toDate().getHours()}}:{{event.time.toDate().getMinutes()}}</strong>
             </v-flex>
             <v-flex>
               <strong>{{event.title}}</strong>
               <div class="caption mb-2">{{event.descr}}</div>
-              <v-avatar v-for="hosts in event.hosts">
-                <img
-                  src='https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortFlat&accessoriesType=Blank&hairColor=BlondeGolden&facialHairType=Blank&clotheType=ShirtVNeck&clotheColor=Blue03&eyeType=Default&eyebrowType=UpDown&mouthType=Default&skinColor=Light' />
-                </img>
+              <div class="caption mb-2">
+                <v-icon small>location_on</v-icon>
+                {{event.location}}
+              </div>
+              <v-avatar v-for="host in event.hosts">
+                <img :src="getPersonByID(host.id).avatar" />
               </v-avatar>
             </v-flex>
           </v-layout>
@@ -51,7 +53,21 @@ export default {
     },
     today() {
       return this.$store.getters.getDay
+    },
+    date() {
+      return this.$store.getters.getDate
     }
   },
+  methods: {
+    getPersonByID(id) {
+      return this.$store.getters.getPersonByID(id)
+    },
+    getWeekday(day) {
+      return this.$store.state.weekday[day]
+    },
+    getMonth(month) {
+      return this.$store.state.month[month]
+    }
+  }
 }
 </script>
