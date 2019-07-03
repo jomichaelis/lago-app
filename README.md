@@ -1,4 +1,4 @@
-# lago-app
+# [lago-app](https://vue-lago-app.web.app)
 
 ## Lago-App 2019 based on Vue.js, Vuex and Vuetify
 
