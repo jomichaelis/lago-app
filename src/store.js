@@ -55,19 +55,22 @@ export const store = new Vuex.Store({
     signUserIn({
       commit
     }, payload) {
-      commit('setLoading', true)
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
         .then(
           user => {
-            commit('setLoading', false)
             const newUser = {
-              id: user.id,
+              id: user.user.uid,
               email: payload.email
             }
             commit('setUser', newUser)
           }
         )
-      console.log("Logged in")
+        .catch(
+          error => {
+            commit('setError', error)
+            console.log(error)
+          }
+        )
     },
     signUserOut({
       commit
@@ -278,7 +281,8 @@ export const store = new Vuex.Store({
               lastname: obj.lastname,
               shortname: obj.shortname,
               age: obj.age,
-              avatar: obj.avatar
+              avatar: obj.avatar,
+              uid: obj.uid
             })
           });
           commit('setLoadedPersons', users)
@@ -320,13 +324,6 @@ export const store = new Vuex.Store({
     },
     user(state) {
       return state.user
-      //return true
-    },
-    findUser(state) {
-      var value = state.loadedPersons.filter(function(elem) {
-        if (elem.email === state.user.email) return elem;
-      });
-      return value[0]["first_name"]
     },
     getAvatar(state) {
       var value = state.loadedPersons.filter(function(elem) {
@@ -368,6 +365,12 @@ export const store = new Vuex.Store({
     },
     getColors(state) {
       return state.colors
+    },
+    getUser(state) {
+      var value = state.loadedPersons.filter(function(elem) {
+        if (elem.uid === state.user.id) return elem;
+      });
+      return value[0]
     }
   }
 })

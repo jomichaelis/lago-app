@@ -22,6 +22,15 @@
     <v-img :src="require('@/assets/lago.jpeg')" height="100%" gradient="to top, rgba(100,115,201,.33), rgba(25,32,72,.7)">
       <v-layout fill-height tag="v-list" column>
         <v-list>
+          <v-list-tile avatar class="mb-2">
+            <v-avatar class="white">
+              <img :src="user.avatar" alt="alt">
+            </v-avatar>
+            <v-list-tile-title class="title ml-4">
+              {{user.shortname}} {{user.lastname}}
+            </v-list-tile-title>
+          </v-list-tile>
+          <v-divider />
           <v-list-tile v-for="link in links" :key="link.text" router :to="link.route" class="list-item v-list__tile">
             <v-list-tile-action>
               <v-icon class="white--text">{{ link.icon }}</v-icon>
@@ -98,7 +107,9 @@ export default {
   computed: {
     loggedIn() {
       return (this.$store.getters.user !== null)
-      //return true
+    },
+    user() {
+      return this.$store.getters.getUser
     }
   }
 }
