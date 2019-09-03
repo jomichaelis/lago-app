@@ -3,13 +3,13 @@ import 'firebase/firestore'
 
 // Initialize Firebase
 var config = {
-  apiKey: "AIzaSyCY7WaHrlgCb1bJw2Q-T7QH9v4DhU_Iqmk",
-  authDomain: "vue-lago-app.firebaseapp.com",
-  databaseURL: "https://vue-lago-app.firebaseio.com",
-  projectId: "vue-lago-app",
-  storageBucket: "vue-lago-app.appspot.com",
-  messagingSenderId: "5686404134",
-  appId: "1:5686404134:web:7856d22b9ef08e85"
+  apiKey: "AIzaSyAvadFiwtwbgIFZvpOhbFybVTVIrrkQGG0",
+  authDomain: "jm-lago-app.firebaseapp.com",
+  databaseURL: "https://jm-lago-app.firebaseio.com",
+  projectId: "jm-lago-app",
+  storageBucket: "jm-lago-app.appspot.com",
+  messagingSenderId: "792875159881",
+  appId: "1:792875159881:web:d0d50ecf5ecfca6b"
 };
 firebase.initializeApp(config);
 const db = firebase.firestore();
