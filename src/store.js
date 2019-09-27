@@ -147,12 +147,12 @@ export const store = new Vuex.Store({
         })
         .then(() => {
           firebase.storage().ref('gallery/' + id + ext).getDownloadURL().then(function(downloadURL) {
-            db.collection('posts').doc(id).update({
-                imageUrl: downloadURL
+            db.collection('images').doc(id + ext).set({
+                full: downloadURL
               }),
               commit('createPost', {
                 ...post,
-                imageUrl: downloadURL,
+                imageLink: id + ext,
                 id: id
               })
           })
@@ -210,7 +210,7 @@ export const store = new Vuex.Store({
               user: obj.user,
               hastags: obj.hashtags,
               likes: obj.likes,
-              imageUrl: obj.imageUrl
+              imageLink: obj.imageLink
             })
           });
           commit('setLoadedPosts', posts)
